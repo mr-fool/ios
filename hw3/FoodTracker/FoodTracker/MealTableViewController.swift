@@ -81,6 +81,7 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
         
         // Fetches the appropriate meal for the data source layout.
         if isFiltering(){
+            print ("line 84" , indexPath.row)
             let meal = filteredMeal[indexPath.row]
             
             cell.nameLabel.text = meal.name
@@ -88,6 +89,7 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
             cell.ratingControl.rating = meal.rating
             
         }else{
+        print ("line 92" , indexPath.row)
         let meal = meals[indexPath.row]
         
         cell.nameLabel.text = meal.name
