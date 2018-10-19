@@ -89,7 +89,7 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
             cell.ratingControl.rating = meal.rating
             
         }else{
-        print ("line 92" , indexPath.row)
+            print ("line 84" , indexPath.row)
         let meal = meals[indexPath.row]
         
         cell.nameLabel.text = meal.name
@@ -162,9 +162,14 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
             guard let indexPath = tableView.indexPath(for: selectedMealCell) else {
                 fatalError("The selected cell is not being displayed by the table")
             }
-            
-            let selectedMeal = meals[indexPath.row]
-            mealDetailViewController.meal = selectedMeal
+            if (isFiltering() == true) {
+                let selectedMeal = filteredMeal[indexPath.row]
+                mealDetailViewController.meal = selectedMeal
+            }
+            else {
+                let selectedMeal = meals[indexPath.row]
+                mealDetailViewController.meal = selectedMeal
+            }
             
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
