@@ -9,15 +9,21 @@
 import UIKit
 import os.log
 
-class MealTableViewController: UITableViewController, UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
+class MealTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
+    
     //MARK: Properties
     var filteredMeal = [Meal]()
     var meals = [Meal]()
     let searchController = UISearchController(searchResultsController: nil)
+    
+    // MARK: - UISearchResultsUpdating Delegate
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
