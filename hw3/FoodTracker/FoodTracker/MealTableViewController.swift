@@ -9,13 +9,7 @@
 import UIKit
 import os.log
 
-class MealTableViewController: UITableViewController, UISearchBarDelegate, UISearchResultsUpdating {
-    
-    //MARK: Properties
-    var filteredMeal = [Meal]()
-    var meals = [Meal]()
-    let searchController = UISearchController(searchResultsController: nil)
-    
+class MealTableViewController: UITableViewController,UISearchBarDelegate, UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
         filterContentForSearchText(searchController.searchBar.text!)
@@ -24,6 +18,10 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
         filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
     }
 
+    //MARK: Properties
+    var filteredMeal = [Meal]()
+    var meals = [Meal]()
+    let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +79,6 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
         
         // Fetches the appropriate meal for the data source layout.
         if isFiltering(){
-            print ("line 84" , indexPath.row)
             let meal = filteredMeal[indexPath.row]
             
             cell.nameLabel.text = meal.name
@@ -89,7 +86,6 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
             cell.ratingControl.rating = meal.rating
             
         }else{
-            print ("line 84" , indexPath.row)
         let meal = meals[indexPath.row]
         
         cell.nameLabel.text = meal.name
@@ -162,14 +158,9 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
             guard let indexPath = tableView.indexPath(for: selectedMealCell) else {
                 fatalError("The selected cell is not being displayed by the table")
             }
-            if (isFiltering() == true) {
-                let selectedMeal = filteredMeal[indexPath.row]
-                mealDetailViewController.meal = selectedMeal
-            }
-            else {
-                let selectedMeal = meals[indexPath.row]
-                mealDetailViewController.meal = selectedMeal
-            }
+            
+            let selectedMeal = meals[indexPath.row]
+            mealDetailViewController.meal = selectedMeal
             
         default:
             fatalError("Unexpected Segue Identifier; \(segue.identifier)")
@@ -243,6 +234,7 @@ class MealTableViewController: UITableViewController, UISearchBarDelegate, UISea
     func filterContentForSearchText(_ searchText: String, scope: String = "All") {
         filteredMeal = meals.filter({( meals : Meal) -> Bool in
             return meals.name.lowercased().contains(searchText.lowercased())
+            
         })
         
         tableView.reloadData()
